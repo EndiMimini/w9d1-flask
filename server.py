@@ -1,7 +1,6 @@
 from flask_app import app
 from flask_app.controllers import users
-# will import controllers here
-
+from flask_app.controllers import posts
 
 
 if __name__ == "__main__":
