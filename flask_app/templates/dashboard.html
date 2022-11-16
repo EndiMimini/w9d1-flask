@@ -22,8 +22,6 @@
                     
                     <h4>{{post.content}} by  <a href="/profile/{{post.creator_id}}">{{post.email}}</a></h4>
                     <div class="d-flex">
-                        {{post.id}}
-                        {{userLikedPosts}}
                         {% if post.id not in userLikedPosts %}
                         <a class="btn btn-warning mx-2" href="/like/{{post.id}}">Like</a>
                         {% endif %}
