@@ -1,4 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask import flash
 
 #Creation of the class of Post
 class Post:
@@ -28,6 +29,11 @@ class Post:
         query = 'INSERT INTO posts (content, user_id) VALUES ( %(content)s, %(user_id)s );'
         return connectToMySQL(cls.db_name).query_db(query, data)
     
+    @classmethod
+    def get_post_by_id(cls, data):
+        query= 'SELECT * FROM posts WHERE posts.id = %(post_id)s;'
+        results = connectToMySQL(cls.db_name).query_db(query, data)
+        return results[0]
 
 
     @classmethod
@@ -48,4 +54,20 @@ class Post:
     def removeLike(cls, data):
         query= 'DELETE FROM likes WHERE post_id = %(post_id)s and user_id = %(user_id)s;'
         return connectToMySQL(cls.db_name).query_db(query, data)
+    
+    @classmethod
+    def destroyPost(cls, data):
+        query= 'DELETE FROM posts WHERE posts.id = %(post_id)s;'
+        return connectToMySQL(cls.db_name).query_db(query, data)
+    @classmethod
+    def deleteAllLikes(cls, data):
+        query= 'DELETE FROM likes WHERE likes.post_id = %(post_id)s;'
+        return connectToMySQL(cls.db_name).query_db(query, data)
 
+    @staticmethod
+    def validate_post(post):
+        is_valid = True
+        if len(post['content']) < 2:
+            flash("Post content must be at least 2 characters.", 'content')
+            is_valid = False
+        return is_valid

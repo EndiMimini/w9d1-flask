@@ -28,6 +28,9 @@
                         {% if post.id in userLikedPosts %}
                         <a class="btn btn-warning mx-2" href="/unlike/{{post.id}}">Unlike</a>
                         {% endif %}
+                        {% if post.creator_id == loggedUser.id  %}
+                        <a class="btn btn-danger mx-2" href="/delete/{{post.id}}">Delete</a>
+                        {% endif %}
                     </div>
 
                 </div>
@@ -43,6 +46,13 @@
                     <label for="content">Content</label>
                     <textarea class="form-control" name="content" cols="30" rows="2"></textarea>
                 </div> 
+                {% with messages = get_flashed_messages(category_filter=["content"]) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="text-danger">{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}   
                 <input class="mt-2 btn btn-success" type="submit" value="Create Post">
             </form>
         </div>

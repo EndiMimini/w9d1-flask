@@ -21,6 +21,10 @@ def createUser():
     if not User.validate_user(request.form):
         flash('Somethings wrong ninja!', 'signUp')
         return redirect(request.referrer)
+    
+    if User.get_user_by_email(request.form):
+        flash('My friend, this email already exists! What are you trying to do?!! Hack me?!', 'emailSignUp')
+        return redirect(request.referrer)
     data = {
         'email': request.form['email'],
         'name': request.form['name'],
@@ -51,6 +55,7 @@ def login():
         # if we get False after checking the password
         flash("Invalid Password", 'passwordLogin')
         return redirect(request.referrer)
+        
     session['user_id'] = user['id']
     return redirect('/')
 

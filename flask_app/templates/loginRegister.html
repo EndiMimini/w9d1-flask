@@ -104,6 +104,19 @@
                         {% endif %}
                     {% endwith %}
                 </div>
+                <div class="form-row">
+                    <label for="confirmpassword">Confirm Password</label>
+                    <input class="form-control mt-2 mb-2" type="password" name="confirmpassword" placeholder="Enter the password again">
+                </div> 
+                <div class="form-row">
+                    {% with messages = get_flashed_messages(category_filter=["passwordConfirm"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="text-danger">{{message}}</p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
                 <input class="btn btn-success" type="submit" value="Create user">
             </form>
         </div>

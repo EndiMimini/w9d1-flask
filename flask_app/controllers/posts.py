@@ -4,6 +4,9 @@ from flask_app.models.post import Post
 
 @app.route('/createPost', methods=['POST'])
 def createPost():
+
+    if not Post.validate_post(request.form):
+        return redirect(request.referrer)
     data = {
         'content': request.form['content'],
         'user_id': session['user_id']
@@ -27,4 +30,16 @@ def removeLike(id):
         'user_id': session['user_id']
     }
     Post.removeLike(data)
+    return redirect(request.referrer)
+
+@app.route('/delete/<int:id>')
+def destroyPost(id):
+    data = {
+        'post_id': id,
+    }
+    post = Post.get_post_by_id(data)
+    if session['user_id']==post['user_id']:
+        Post.deleteAllLikes(data)
+        Post.destroyPost(data)
+        return redirect(request.referrer)
     return redirect(request.referrer)

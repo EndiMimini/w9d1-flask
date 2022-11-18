@@ -76,5 +76,8 @@ class User:
         if len(user['password']) < 8:
             flash("Password be at least 8 characters.", 'passwordRegister')
             is_valid = False
+        if user['confirmpassword'] != user['password']:
+            flash("Password do not match!", 'passwordConfirm')
+            is_valid = False
         return is_valid
     
